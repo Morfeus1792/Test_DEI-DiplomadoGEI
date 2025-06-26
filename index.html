@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen: Diseño de Edificios Inteligentes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google API Client Library -->
+    <script src="https://apis.google.com/js/api.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            --innotica-blue: #00448D;
+            --innotica-yellow: #FDB813;
+        }
+        .bg-innotica-blue { background-color: var(--innotica-blue); }
+        .text-innotica-blue { color: var(--innotica-blue); }
+        .bg-innotica-yellow { background-color: var(--innotica-yellow); }
+        .border-innotica-blue { border-color: var(--innotica-blue); }
+        .ring-innotica-blue { --tw-ring-color: var(--innotica-blue); }
+        .hover\:bg-innotica-blue-dark:hover { background-color: #003366; }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--innotica-blue);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
+        <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+            <header class="text-center border-b pb-6 mb-6">
+                <h1 class="text-3xl sm:text-4xl font-bold text-innotica-blue">Examen: Diseño de Edificios Inteligentes</h1>
+                <p class="text-gray-600 mt-2">Evaluación de las clases 1 y 2 del Módulo 3.</p>
+            </header>
+
+            <div id="student-info-section">
+                <form id="student-info-form" class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Información del Estudiante</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                            <input type="text" id="firstName" name="firstName" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-innotica-blue" required>
+                        </div>
+                        <div>
+                            <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
+                            <input type="text" id="lastName" name="lastName" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-innotica-blue" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-innotica-blue" required>
+                        </div>
+                    </div>
+                    <div class="text-center mt-6">
+                        <button type="submit" class="bg-innotica-blue text-white font-bold py-2 px-6 rounded-lg hover:bg-innotica-blue-dark transition-transform transform hover:scale-105">Comenzar Examen</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="quiz-section" class="hidden">
+                <div class="flex justify-between items-center mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div id="progress-container" class="w-full mr-4">
+                         <p id="progress-text" class="text-sm text-gray-600 mb-1">Progreso</p>
+                         <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div id="progress-bar" class="bg-innotica-yellow h-2.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="text-right flex-shrink-0">
+                        <p class="text-sm text-gray-600">Tiempo</p>
+                        <div id="timer" class="text-lg font-semibold text-innotica-blue">00:00</div>
+                    </div>
+                </div>
+                <div id="quiz-container"></div>
+                <div id="navigation-container" class="flex justify-between mt-6"></div>
+            </div>
+
+            <div id="evaluation-section" class="hidden text-center p-8">
+                 <h2 class="text-2xl font-bold text-innotica-blue mb-4">Evaluando tus respuestas...</h2>
+                 <p class="text-gray-600 mb-4">Por favor, espera un momento.</p>
+                 <div class="w-full bg-gray-200 rounded-full h-4">
+                    <div id="evaluation-bar" class="bg-innotica-blue h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div id="results-container" class="hidden text-center mt-8">
+                 <!-- Results will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="fixed inset-0 bg-gray-800 bg-opacity-60 z-50 flex items-center justify-center hidden">
+        <div class="bg-white p-8 rounded-lg shadow-2xl max-w-sm w-full mx-4">
+            <h3 class="text-xl font-bold text-center mb-4 text-gray-800">Confirmar Finalización</h3>
+            <p class="text-gray-600 text-center mb-6">¿Estás seguro de que deseas finalizar el examen? No podrás cambiar tus respuestas después de esto.</p>
+            <div class="flex justify-around">
+                <button id="cancel-finish-btn" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button>
+                <button id="confirm-finish-btn" class="px-6 py-2 bg-innotica-blue text-white rounded-lg hover:bg-innotica-blue-dark">Finalizar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "1. ¿Cuáles son los cuatro pilares fundamentales que constituyen la base de la automatización de edificios?", options: ["Luz, Agua, Gas, Internet", "Cimientos, Estructura, Techo, Paredes", "Energía, Confort, Seguridad, Comunicación", "Sensores, Actuadores, Cables, Software", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! La automatización busca un equilibrio entre la eficiencia energética, el confort de los ocupantes, la seguridad integral y la comunicación entre todos los sistemas." } },
+            { question: "2. Un sensor de flujo en una tubería que indica la cantidad de litros por minuto es un ejemplo de un dispositivo que emite una:", options: ["Señal digital", "Señal analógica", "Señal binaria", "Señal de alarma", "Todas las anteriores", "Ninguna de las anteriores"], correct: 1, feedback: { 1: "¡Correcto! La señal es analógica porque puede tomar cualquier valor dentro de un rango (ej. 0-10V) para representar la variación continua del flujo." } },
+            { question: "3. ¿Qué tipo de actuador se utilizaría para controlar una válvula que necesita posicionarse en 0%, 25%, 70% o cualquier punto intermedio?", options: ["Actuador Todo/Nada", "Actuador On/Off", "Actuador Digital", "Actuador Proporcional", "Todas las anteriores", "Ninguna de las anteriores"], correct: 3, feedback: { 3: "¡Correcto! Un actuador proporcional es el único que puede regular una posición en un rango variable, no solo abrir o cerrar completamente."} },
+            { question: "4. En la arquitectura de un sistema de gestión de edificios (BMS), ¿cuál es la función principal del 'Front-end'?", options: ["Almacenar los datos históricos en un servidor.", "Ejecutar la lógica de control en los controladores.", "Proporcionar la interfaz gráfica (SCADA) para que los usuarios monitoreen y controlen.", "Conectar físicamente los sensores y actuadores.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! El Front-end es la parte visual e interactiva del sistema con la que el operador interactúa." } },
+            { question: "5. ¿Cuál es la ventaja clave de utilizar un protocolo estándar como BACnet o KNX en lugar de uno propietario?", options: ["Es siempre más barato.", "Permite la interoperabilidad entre equipos de diferentes fabricantes.", "Tiene mejor soporte técnico.", "Es más seguro contra ciberataques.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 1, feedback: { 1: "¡Correcto! La interoperabilidad evita la dependencia de una sola marca y permite elegir los mejores dispositivos para cada aplicación." } },
+            { question: "6. ¿Qué es el Facility Management?", options: ["El proceso de construcción del edificio.", "La gestión de un único sistema, como el aire acondicionado.", "Una disciplina que gestiona el funcionamiento de los inmuebles y sus servicios asociados.", "El equipo de limpieza del edificio.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! El Facility Management tiene un alcance holístico que busca asegurar la eficiencia y funcionalidad de todo el entorno construido."} },
+            { question: "7. En el contexto de los actores del mercado, ¿qué función principal desempeña un 'Integrador'?", options: ["Diseñar los planos arquitectónicos.", "Fabricar los dispositivos de control.", "Vender los inmuebles a los clientes finales.", "Programar y poner en marcha los sistemas para que distintas tecnologías funcionen juntas.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 3, feedback: { 3: "¡Correcto! El integrador es el especialista técnico que 'integra' los diferentes subsistemas en una plataforma de gestión unificada." } },
+            { question: "8. ¿Para qué se utiliza la metodología BIM (Building Information Modeling) en un proyecto de edificio inteligente?", options: ["Únicamente para crear renders 3D para marketing.", "Para gestionar la contabilidad del proyecto.", "Para crear un modelo digital centralizado del edificio que contiene toda su información.", "Para obtener la certificación energética.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! BIM es un modelo de datos que integra la información de todas las disciplinas a lo largo del ciclo de vida del edificio." } },
+            { question: "9. ¿Cuál es el rol de un 'Agente de Comisionamiento' (Commissioning Agent)?", options: ["Es el vendedor que consigue la comisión por la venta de equipos.", "Es el encargado de la limpieza final de la obra.", "Verifica que todos los sistemas instalados funcionen según los requerimientos del diseño.", "Es el director general del proyecto.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! El comisionamiento es un proceso de aseguramiento de la calidad que garantiza que el edificio y sus sistemas cumplen con lo especificado." } },
+            { question: "10. ¿Cuál de las siguientes tecnologías de comunicación inalámbrica está diseñada para bajo consumo y largas distancias (LPWAN)?", options: ["Wi-Fi 6", "5G", "Bluetooth", "LoRaWAN", "Todas las anteriores", "Ninguna de las anteriores"], correct: 3, feedback: { 3: "¡Correcto! LoRaWAN está optimizada para enviar pequeñas cantidades de datos a largas distancias con una batería que puede durar años." } },
+            { question: "11. El uso de un sensor para medir la luz natural y regular la intensidad de las luces artificiales se conoce como:", options: ["Control por horario", "Control por detección de presencia", "Regulación por aporte de luz natural (Daylight Harvesting)", "Control ON/OFF", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! Esta estrategia es clave para la eficiencia energética, ya que utiliza la luz natural disponible para reducir el consumo eléctrico." } },
+            { question: "12. ¿Qué significa que un controlador tiene 'Entradas/Salidas Universales'?", options: ["Que funciona con cualquier marca de sensor.", "Que se puede conectar a cualquier tipo de red.", "Que sus puertos físicos pueden ser configurados por software como entrada o salida, digital o analógica.", "Que tiene un puerto USB universal.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! Las I/O universales ofrecen una gran flexibilidad durante la instalación, ya que un mismo punto físico puede adaptarse a diferentes tipos de señales." } },
+            { question: "13. El ciclo de gestión energética 'Medir, Analizar, Actuar y Supervisar' es un proceso de:", options: ["Instalación única", "Mejora continua", "Diseño inicial", "Mantenimiento correctivo", "Todas las anteriores", "Ninguna de las anteriores"], correct: 1, feedback: { 1: "¡Correcto! Es un ciclo iterativo. Después de supervisar, se vuelve a medir para encontrar nuevas oportunidades de optimización." } },
+            { question: "14. ¿Cuál de estos actores del mercado se enfoca en crear normativas y certificaciones como LEED?", options: ["Promotor", "Constructor", "Organizaciones Gremiales (Ej. Green Building Council)", "Instalador", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! Organizaciones como los Green Building Councils son fundamentales para desarrollar y promover estándares de construcción sostenible." } },
+            { question: "15. ¿En qué fase de la 'Línea de Vida de un Proyecto' se realiza la programación de la lógica de control y el diseño del SCADA?", options: ["Pre-diseño", "Construcción de obra", "Ingeniería de detalle", "Operación y Mantenimiento (O&M)", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! La ingeniería de detalle es donde se traducen los requerimientos en soluciones técnicas concretas, incluyendo la programación de los sistemas." } }
+        ];
+
+        // --- Google API Configuration ---
+        const CLIENT_ID = '700675294471-lfr5s9ho9crs9k5sc4ddah5o6gut139v.apps.googleusercontent.com';
+        const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
+        const SPREADSHEET_ID = '1DcW5Ou-1U1Zd6ll1uDAobFerQoXrXuonyN5uMUeMxHg';
+
+        // --- DOM Elements ---
+        const studentInfoSection = document.getElementById('student-info-section');
+        const studentInfoForm = document.getElementById('student-info-form');
+        const quizSection = document.getElementById('quiz-section');
+        const quizContainer = document.getElementById('quiz-container');
+        const navigationContainer = document.getElementById('navigation-container');
+        const progressBar = document.getElementById('progress-bar');
+        const timerEl = document.getElementById('timer');
+        const evaluationSection = document.getElementById('evaluation-section');
+        const resultsContainer = document.getElementById('results-container');
+        const confirmationModal = document.getElementById('confirmation-modal');
+        
+        // --- State Variables ---
+        let currentQuestionIndex = 0;
+        let studentAnswers = new Array(quizData.length).fill(null);
+        let studentInfo = {};
+        let timerInterval;
+        let seconds = 0;
+        let gapiInited = false;
+        let gisInited = false;
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            studentInfoForm.addEventListener('submit', startQuiz);
+            document.getElementById('cancel-finish-btn').addEventListener('click', () => confirmationModal.classList.add('hidden'));
+            document.getElementById('confirm-finish-btn').addEventListener('click', finishQuiz);
+            
+            // Load Google API
+            gapi.load('client:auth2', initClient);
+        });
+
+        // --- Google API Functions ---
+        function initClient() {
+            gapi.client.init({
+                clientId: CLIENT_ID,
+                scope: SCOPES,
+                discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+            }).then(() => {
+                gapiInited = true;
+            }).catch(err => {
+                console.error("Error initializing GAPI client:", err);
+            });
+        }
+
+        async function handleAuthClick() {
+            const authInstance = gapi.auth2.getAuthInstance();
+            if (!authInstance.isSignedIn.get()) {
+                await authInstance.signIn();
+            }
+            if (authInstance.isSignedIn.get()) {
+                 await appendDataToSheet();
+            } else {
+                alert("Se requiere autorización para guardar en Google Sheets.");
+            }
+        }
+
+        async function appendDataToSheet() {
+            const saveButton = document.getElementById('save-to-sheets-btn');
+            saveButton.disabled = true;
+            saveButton.innerHTML = `<div class="loader mx-auto"></div>`;
+
+            if (SPREADSHEET_ID === 'PEGA_AQUI_EL_ID_DE_TU_HOJA_DE_CALCULO') {
+                alert('Error: Debes editar el archivo HTML y configurar el SPREADSHEET_ID.');
+                saveButton.disabled = false;
+                saveButton.innerText = 'Guardar en Google Sheets';
+                return;
+            }
+
+            const correctAnswers = studentAnswers.filter((a, i) => a === quizData[i].correct).length;
+            const finalScore = ((correctAnswers / quizData.length) * 40).toFixed(2);
+            
+            // Create a timestamp
+            const timestamp = new Date().toLocaleString('es-VE');
+
+            // Prepare the row data
+            let rowData = [
+                timestamp,
+                studentInfo.firstName,
+                studentInfo.lastName,
+                studentInfo.email,
+                finalScore,
+                timerEl.textContent,
+            ];
+
+            // Add each answer to the row
+            quizData.forEach((q, index) => {
+                const userAnswerIndex = studentAnswers[index];
+                const userAnswerText = userAnswerIndex !== null ? q.options[userAnswerIndex] : 'No respondida';
+                rowData.push(userAnswerText);
+            });
+            
+            try {
+                const response = await gapi.client.sheets.spreadsheets.values.append({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: 'Test1-DiseñoEdificiosInteligentes-06.2025.v1!A1',
+                    valueInputOption: 'USER_ENTERED',
+                    resource: {
+                        values: [rowData],
+                    },
+                });
+                console.log(response);
+                alert('¡Resultados guardados en Google Sheets exitosamente!');
+                saveButton.innerText = 'Guardado con Éxito';
+                saveButton.classList.add('bg-green-600');
+                saveButton.classList.remove('bg-innotica-blue');
+
+            } catch (err) {
+                console.error("API Error: ", err);
+                alert('Error al guardar en Google Sheets. Revisa la consola para más detalles.');
+                saveButton.disabled = false;
+                saveButton.innerText = 'Guardar en Google Sheets';
+            }
+        }
+
+        // --- Quiz Logic ---
+        function startQuiz(e) { e.preventDefault(); studentInfo.firstName = document.getElementById('firstName').value; studentInfo.lastName = document.getElementById('lastName').value; studentInfo.email = document.getElementById('email').value; if (studentInfo.firstName && studentInfo.lastName && studentInfo.email) { studentInfoSection.classList.add('hidden'); quizSection.classList.remove('hidden'); startTimer(); displayQuestion(); } }
+        function displayQuestion() { const q = quizData[currentQuestionIndex]; quizContainer.innerHTML = `<div class="bg-gray-50 p-6 rounded-lg shadow-inner"><p class="mb-6 text-lg text-gray-800">${q.question}</p><div class="space-y-3">${q.options.map((o, i) => `<div class="option bg-white p-4 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-innotica-blue cursor-pointer" data-index="${i}"><label class="w-full h-full block cursor-pointer">${o}</label></div>`).join('')}</div></div>`; if (studentAnswers[currentQuestionIndex] !== null) { quizContainer.querySelector(`[data-index='${studentAnswers[currentQuestionIndex]}']`).classList.add('bg-blue-100', 'border-innotica-blue'); } quizContainer.querySelectorAll('.option').forEach(o => o.addEventListener('click', selectAnswer)); updateNavigation(); updateProgressBar(); }
+        function selectAnswer(e) { const i = parseInt(e.currentTarget.dataset.index); studentAnswers[currentQuestionIndex] = i; quizContainer.querySelectorAll('.option').forEach(o => o.classList.remove('bg-blue-100', 'border-innotica-blue')); e.currentTarget.classList.add('bg-blue-100', 'border-innotica-blue'); }
+        function updateNavigation() { navigationContainer.innerHTML = `<button id="prev-btn" class="px-6 py-2 bg-gray-300 rounded-lg ${currentQuestionIndex === 0 ? 'invisible' : ''}">Anterior</button>${currentQuestionIndex === quizData.length - 1 ? `<button id="finish-btn" class="px-6 py-2 bg-innotica-blue text-white font-bold rounded-lg">Finalizar</button>` : `<button id="next-btn" class="px-6 py-2 bg-innotica-blue text-white rounded-lg">Siguiente</button>`}`; if (currentQuestionIndex > 0) document.getElementById('prev-btn').addEventListener('click', handlePrevQuestion); if (currentQuestionIndex < quizData.length - 1) document.getElementById('next-btn').addEventListener('click', handleNextQuestion); else document.getElementById('finish-btn').addEventListener('click', () => confirmationModal.classList.remove('hidden')); }
+        function handleNextQuestion() { if (currentQuestionIndex < quizData.length - 1) { currentQuestionIndex++; displayQuestion(); } }
+        function handlePrevQuestion() { if (currentQuestionIndex > 0) { currentQuestionIndex--; displayQuestion(); } }
+        function finishQuiz() { confirmationModal.classList.add('hidden'); quizSection.classList.add('hidden'); evaluationSection.classList.remove('hidden'); clearInterval(timerInterval); let p = 0; const i = setInterval(() => { p += 20; document.getElementById('evaluation-bar').style.width = `${p}%`; if (p >= 100) { clearInterval(i); setTimeout(() => { evaluationSection.classList.add('hidden'); showResults(); }, 500); } }, 1000); }
+        function showResults() { resultsContainer.classList.remove('hidden'); const c = studentAnswers.filter((a, i) => a === quizData[i].correct).length; const s = ((c / quizData.length) * 40).toFixed(2); resultsContainer.innerHTML = `<h2 class="text-3xl font-bold text-innotica-blue mb-4">Resultados</h2><p class="text-xl mb-2">Puntuación Final:</p><p class="text-5xl font-bold text-innotica-blue mb-6">${s} / 40.00</p><div class="text-left space-y-6">${quizData.map((q, i) => { const u = studentAnswers[i]; const r = u === q.correct; const f = r ? q.feedback[u] : 'Respuesta incorrecta.'; return `<div class="p-4 rounded-lg ${r ? 'bg-green-50 border-l-4 border-green-500' : 'bg-red-50 border-l-4 border-red-500'}"><p class="font-bold">${q.question}</p><p class="mt-2">Tu respuesta: <span class="font-semibold">${u !== null ? q.options[u] : 'No respondida'}</span></p><p class="mt-2 text-sm ${r ? 'text-green-700' : 'text-red-700'}">${f}</p></div>`; }).join('')}</div><div class="mt-8 space-y-4"><button id="save-to-sheets-btn" class="bg-innotica-blue text-white font-bold py-3 px-8 rounded-lg hover:bg-innotica-blue-dark w-full md:w-auto">Guardar en Google Sheets</button><button id="send-email-btn" class="bg-gray-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 w-full md:w-auto">Preparar Correo</button></div>`; document.getElementById('send-email-btn').addEventListener('click', sendEmail); document.getElementById('save-to-sheets-btn').addEventListener('click', handleAuthClick); }
+        function startTimer() { timerInterval = setInterval(() => { seconds++; const m = Math.floor(seconds / 60).toString().padStart(2, '0'); const s = (seconds % 60).toString().padStart(2, '0'); timerEl.textContent = `${m}:${s}`; }, 1000); }
+        function updateProgressBar() { document.getElementById('progress-text').textContent = `Pregunta ${currentQuestionIndex + 1} de ${quizData.length}`; document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / quizData.length) * 100}%`; }
+        function sendEmail() { const s = ((studentAnswers.filter((a, i) => a === quizData[i].correct).length / quizData.length) * 40).toFixed(2); const t = "carlosdobobuto@gmail.com"; const j = `Resultados: ${studentInfo.firstName} ${studentInfo.lastName}`; let b = `Resultados del Examen:\nNombre: ${studentInfo.firstName} ${studentInfo.lastName}\nCorreo: ${studentInfo.email}\nTiempo: ${timerEl.textContent}\n\nPUNTUACIÓN: ${s} / 40.00\n\n------------------\n\n`; quizData.forEach((q, i) => { const u = studentAnswers[i]; const c = u === q.correct; const f = c ? q.feedback[u] : 'Respuesta incorrecta.'; b += `${q.question}\nRespuesta: ${u !== null ? q.options[u] : 'No respondida'} (${c ? 'Correcta' : 'Incorrecta'})\nFeedback: ${f}\n\n`; }); window.location.href = `mailto:${t}?subject=${encodeURIComponent(j)}&body=${encodeURIComponent(b)}`; }
+    </script>
+</body>
+</html>
