@@ -1,28 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Configuración de metadatos del documento -->
     <meta charset="UTF-8">
+    <!-- Asegura la correcta visualización en dispositivos móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Examen: Diseño de Edificios Inteligentes</title>
+    <!-- Título de la página que aparece en la pestaña del navegador -->
+    <title>Examen final del módulo Diseño de Edificios Inteligentes</title>
+    
+    <!-- Inclusión de Tailwind CSS para un diseño rápido y responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Google API Client Library -->
-    <script src="https://apis.google.com/js/api.js"></script>
+    
+    <!-- Estilos CSS personalizados -->
     <style>
+        /* Importación de la fuente 'Inter' desde Google Fonts para un aspecto moderno */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        /* Aplicación de la fuente a todo el cuerpo del documento */
         body {
             font-family: 'Inter', sans-serif;
-            --innotica-blue: #00448D;
-            --innotica-yellow: #FDB813;
         }
-        .bg-innotica-blue { background-color: var(--innotica-blue); }
-        .text-innotica-blue { color: var(--innotica-blue); }
-        .bg-innotica-yellow { background-color: var(--innotica-yellow); }
-        .border-innotica-blue { border-color: var(--innotica-blue); }
-        .ring-innotica-blue { --tw-ring-color: var(--innotica-blue); }
-        .hover\:bg-innotica-blue-dark:hover { background-color: #003366; }
+        
+        /* Estilo de fondo con un gradiente lineal, usando los colores del sitio de referencia */
+        .gradient-bg {
+            background: linear-gradient(135deg, #00448D, #002D6C); /* Gradiente con los colores de Innotica */
+        }
+        
+        /* Estilo base para el botón primario */
+        .btn-primary {
+            background-color: #00448D; /* Color principal de Innotica */
+            transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
+        }
+        
+        /* Efecto hover para el botón primario */
+        .btn-primary:hover {
+            background-color: #003366; /* Tono más oscuro para el hover */
+        }
+        
+        /* Estilo base para el botón secundario */
+        .btn-secondary {
+            background-color: #6c757d;
+            transition: background-color 0.3s ease;
+        }
+        
+        /* Efecto hover para el botón secundario */
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        /* Transición suave para la animación de la barra de progreso */
+        .progress-bar-fill {
+            transition: width 0.5s ease-in-out;
+        }
+        
+        /* Animación del loader */
         .loader {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--innotica-blue);
+            border-top: 4px solid #00448D;
             border-radius: 50%;
             width: 24px;
             height: 24px;
@@ -34,231 +68,389 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 text-gray-800 flex items-center justify-center min-h-screen">
 
+    <!-- Contenedor principal del examen -->
     <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
-        <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
-            <header class="text-center border-b pb-6 mb-6">
-                <h1 class="text-3xl sm:text-4xl font-bold text-innotica-blue">Examen: Diseño de Edificios Inteligentes</h1>
-                <p class="text-gray-600 mt-2">Evaluación de las clases 1 y 2 del Módulo 3.</p>
-            </header>
+        <!-- Tarjeta principal que contiene todo el contenido -->
+        <div id="main-card" class="bg-white rounded-2xl shadow-2xl overflow-hidden">
 
-            <div id="student-info-section">
-                <form id="student-info-form" class="mb-8">
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Información del Estudiante</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
+            <!-- Encabezado del examen -->
+            <div id="header" class="gradient-bg p-6 text-white">
+                <h1 class="text-2xl sm:text-3xl font-bold">Examen final del módulo Diseño de Edificios Inteligentes</h1>
+                <p class="mt-2 text-sm sm:text-base opacity-90">Evaluación final de conocimientos del Módulo 3.</p>
+            </div>
+
+            <!-- Área de contenido dinámico que cambiará según la fase del examen -->
+            <div id="content-area" class="p-6 sm:p-8">
+
+                <!-- Vista de Inicio: Formulario de datos del estudiante -->
+                <div id="start-view">
+                    <h2 class="text-xl font-semibold mb-4">Información del Estudiante</h2>
+                    <p class="mb-6 text-gray-600">Por favor, completa tus datos para comenzar el examen.</p>
+                    <form id="user-info-form">
+                        <!-- Campo para el Nombre -->
+                        <div class="mb-4">
                             <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-                            <input type="text" id="firstName" name="firstName" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-innotica-blue" required>
+                            <input type="text" id="firstName" name="firstName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
                         </div>
-                        <div>
+                        <!-- Campo para el Apellido -->
+                        <div class="mb-4">
                             <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
-                            <input type="text" id="lastName" name="lastName" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-innotica-blue" required>
+                            <input type="text" id="lastName" name="lastName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
                         </div>
-                        <div class="md:col-span-2">
+                        <!-- Campo para el Correo Electrónico -->
+                        <div class="mb-6">
                             <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
-                            <input type="email" id="email" name="email" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-innotica-blue" required>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <!-- Botón para enviar el formulario y comenzar el examen -->
+                        <button type="submit" class="w-full btn-primary text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline">
+                            Comenzar Examen
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Vista del Examen: Se muestra durante la resolución de preguntas -->
+                <div id="quiz-view" class="hidden">
+                    <!-- Cabecera de la pregunta: número de pregunta y temporizador -->
+                    <div class="flex justify-between items-center mb-4 flex-wrap">
+                        <div class="w-full sm:w-auto mb-2 sm:mb-0">
+                            <h2 class="text-xl font-bold">Pregunta <span id="question-number"></span> de <span id="total-questions"></span></h2>
+                        </div>
+                        <div class="flex items-center bg-gray-200 text-gray-700 text-sm font-semibold px-3 py-1 rounded-full">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span id="timer">00:00</span>
                         </div>
                     </div>
-                    <div class="text-center mt-6">
-                        <button type="submit" class="bg-innotica-blue text-white font-bold py-2 px-6 rounded-lg hover:bg-innotica-blue-dark transition-transform transform hover:scale-105">Comenzar Examen</button>
-                    </div>
-                </form>
-            </div>
 
-            <div id="quiz-section" class="hidden">
-                <div class="flex justify-between items-center mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                    <div id="progress-container" class="w-full mr-4">
-                         <p id="progress-text" class="text-sm text-gray-600 mb-1">Progreso</p>
-                         <div class="w-full bg-gray-200 rounded-full h-2.5">
-                            <div id="progress-bar" class="bg-innotica-yellow h-2.5 rounded-full" style="width: 0%"></div>
+                    <!-- Barra de progreso del examen -->
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+                        <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full progress-bar-fill" style="width: 0%"></div>
+                    </div>
+
+                    <!-- Contenedor para el texto de la pregunta y las opciones -->
+                    <div id="question-container" class="mb-6">
+                        <p id="question-text" class="text-lg mb-6"></p>
+                        <div id="options-container" class="space-y-3">
+                            <!-- Las opciones de respuesta se generarán dinámicamente aquí -->
                         </div>
                     </div>
-                    <div class="text-right flex-shrink-0">
-                        <p class="text-sm text-gray-600">Tiempo</p>
-                        <div id="timer" class="text-lg font-semibold text-innotica-blue">00:00</div>
+
+                    <!-- Botones de navegación del examen -->
+                    <div class="flex justify-between mt-8">
+                        <button id="prev-btn" class="btn-secondary text-white font-bold py-2 px-6 rounded-lg">Anterior</button>
+                        <button id="next-btn" class="btn-primary text-white font-bold py-2 px-6 rounded-lg">Siguiente</button>
                     </div>
                 </div>
-                <div id="quiz-container"></div>
-                <div id="navigation-container" class="flex justify-between mt-6"></div>
-            </div>
+                
+                <!-- Vista de Evaluación: Se muestra después de finalizar el examen -->
+                <div id="evaluating-view" class="hidden text-center">
+                    <h2 class="text-2xl font-semibold mb-4">Evaluando tus respuestas...</h2>
+                    <p class="mb-6 text-gray-600">Por favor, espera un momento.</p>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div id="eval-progress-bar" class="bg-blue-600 h-4 rounded-full progress-bar-fill" style="width: 0%"></div>
+                    </div>
+                </div>
 
-            <div id="evaluation-section" class="hidden text-center p-8">
-                 <h2 class="text-2xl font-bold text-innotica-blue mb-4">Evaluando tus respuestas...</h2>
-                 <p class="text-gray-600 mb-4">Por favor, espera un momento.</p>
-                 <div class="w-full bg-gray-200 rounded-full h-4">
-                    <div id="evaluation-bar" class="bg-innotica-blue h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                <!-- Vista de Resultados: Muestra la puntuación final y el feedback -->
+                <div id="results-view" class="hidden">
+                    <h2 class="text-3xl font-bold text-center mb-2">¡Examen Completado!</h2>
+                    <p class="text-center text-gray-600 mb-6">Este es el resumen de tu desempeño.</p>
+                    
+                    <!-- Tarjeta con la puntuación final -->
+                    <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-800 p-4 rounded-lg mb-8 text-center">
+                        <p class="font-bold text-lg">Puntuación Final</p>
+                        <p class="text-5xl font-extrabold"><span id="final-score"></span> / <span id="total-score"></span></p>
+                    </div>
+                    
+                    <!-- Contenedor para la revisión y feedback de cada pregunta -->
+                    <div id="feedback-container">
+                        <h3 class="text-xl font-semibold mb-4">Revisión de Preguntas</h3>
+                        <!-- El feedback de cada pregunta se generará dinámicamente aquí -->
+                    </div>
+                    
+                    <!-- Sección final con el estado del envío automático -->
+                    <div class="mt-8 text-center">
+                         <p id="save-status" class="text-sm font-semibold mt-4"></p>
+                    </div>
                 </div>
             </div>
-
-            <div id="results-container" class="hidden text-center mt-8">
-                 <!-- Results will be injected here -->
+        </div>
+    </div>
+    
+    <!-- Modal de Confirmación para finalizar el examen -->
+    <div id="confirm-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-sm w-full">
+            <h3 class="text-xl font-bold mb-4">Confirmar Finalización</h3>
+            <p class="text-gray-600 mb-6">¿Estás seguro de que deseas finalizar el examen? No podrás cambiar tus respuestas después de esto.</p>
+            <div class="flex justify-end space-x-4">
+                <button id="cancel-finish-btn" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancelar</button>
+                <button id="confirm-finish-btn" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Finalizar y Evaluar</button>
             </div>
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
-    <div id="confirmation-modal" class="fixed inset-0 bg-gray-800 bg-opacity-60 z-50 flex items-center justify-center hidden">
-        <div class="bg-white p-8 rounded-lg shadow-2xl max-w-sm w-full mx-4">
-            <h3 class="text-xl font-bold text-center mb-4 text-gray-800">Confirmar Finalización</h3>
-            <p class="text-gray-600 text-center mb-6">¿Estás seguro de que deseas finalizar el examen? No podrás cambiar tus respuestas después de esto.</p>
-            <div class="flex justify-around">
-                <button id="cancel-finish-btn" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button>
-                <button id="confirm-finish-btn" class="px-6 py-2 bg-innotica-blue text-white rounded-lg hover:bg-innotica-blue-dark">Finalizar</button>
-            </div>
-        </div>
-    </div>
 
-    <script>
-        const quizData = [
-            { question: "1. ¿Cuáles son los cuatro pilares fundamentales que constituyen la base de la automatización de edificios?", options: ["Luz, Agua, Gas, Internet", "Cimientos, Estructura, Techo, Paredes", "Energía, Confort, Seguridad, Comunicación", "Sensores, Actuadores, Cables, Software", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! La automatización busca un equilibrio entre la eficiencia energética, el confort de los ocupantes, la seguridad integral y la comunicación entre todos los sistemas." } },
-            { question: "2. Un sensor de flujo en una tubería que indica la cantidad de litros por minuto es un ejemplo de un dispositivo que emite una:", options: ["Señal digital", "Señal analógica", "Señal binaria", "Señal de alarma", "Todas las anteriores", "Ninguna de las anteriores"], correct: 1, feedback: { 1: "¡Correcto! La señal es analógica porque puede tomar cualquier valor dentro de un rango (ej. 0-10V) para representar la variación continua del flujo." } },
-            { question: "3. ¿Qué tipo de actuador se utilizaría para controlar una válvula que necesita posicionarse en 0%, 25%, 70% o cualquier punto intermedio?", options: ["Actuador Todo/Nada", "Actuador On/Off", "Actuador Digital", "Actuador Proporcional", "Todas las anteriores", "Ninguna de las anteriores"], correct: 3, feedback: { 3: "¡Correcto! Un actuador proporcional es el único que puede regular una posición en un rango variable, no solo abrir o cerrar completamente."} },
-            { question: "4. En la arquitectura de un sistema de gestión de edificios (BMS), ¿cuál es la función principal del 'Front-end'?", options: ["Almacenar los datos históricos en un servidor.", "Ejecutar la lógica de control en los controladores.", "Proporcionar la interfaz gráfica (SCADA) para que los usuarios monitoreen y controlen.", "Conectar físicamente los sensores y actuadores.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! El Front-end es la parte visual e interactiva del sistema con la que el operador interactúa." } },
-            { question: "5. ¿Cuál es la ventaja clave de utilizar un protocolo estándar como BACnet o KNX en lugar de uno propietario?", options: ["Es siempre más barato.", "Permite la interoperabilidad entre equipos de diferentes fabricantes.", "Tiene mejor soporte técnico.", "Es más seguro contra ciberataques.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 1, feedback: { 1: "¡Correcto! La interoperabilidad evita la dependencia de una sola marca y permite elegir los mejores dispositivos para cada aplicación." } },
-            { question: "6. ¿Qué es el Facility Management?", options: ["El proceso de construcción del edificio.", "La gestión de un único sistema, como el aire acondicionado.", "Una disciplina que gestiona el funcionamiento de los inmuebles y sus servicios asociados.", "El equipo de limpieza del edificio.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! El Facility Management tiene un alcance holístico que busca asegurar la eficiencia y funcionalidad de todo el entorno construido."} },
-            { question: "7. En el contexto de los actores del mercado, ¿qué función principal desempeña un 'Integrador'?", options: ["Diseñar los planos arquitectónicos.", "Fabricar los dispositivos de control.", "Vender los inmuebles a los clientes finales.", "Programar y poner en marcha los sistemas para que distintas tecnologías funcionen juntas.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 3, feedback: { 3: "¡Correcto! El integrador es el especialista técnico que 'integra' los diferentes subsistemas en una plataforma de gestión unificada." } },
-            { question: "8. ¿Para qué se utiliza la metodología BIM (Building Information Modeling) en un proyecto de edificio inteligente?", options: ["Únicamente para crear renders 3D para marketing.", "Para gestionar la contabilidad del proyecto.", "Para crear un modelo digital centralizado del edificio que contiene toda su información.", "Para obtener la certificación energética.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! BIM es un modelo de datos que integra la información de todas las disciplinas a lo largo del ciclo de vida del edificio." } },
-            { question: "9. ¿Cuál es el rol de un 'Agente de Comisionamiento' (Commissioning Agent)?", options: ["Es el vendedor que consigue la comisión por la venta de equipos.", "Es el encargado de la limpieza final de la obra.", "Verifica que todos los sistemas instalados funcionen según los requerimientos del diseño.", "Es el director general del proyecto.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! El comisionamiento es un proceso de aseguramiento de la calidad que garantiza que el edificio y sus sistemas cumplen con lo especificado." } },
-            { question: "10. ¿Cuál de las siguientes tecnologías de comunicación inalámbrica está diseñada para bajo consumo y largas distancias (LPWAN)?", options: ["Wi-Fi 6", "5G", "Bluetooth", "LoRaWAN", "Todas las anteriores", "Ninguna de las anteriores"], correct: 3, feedback: { 3: "¡Correcto! LoRaWAN está optimizada para enviar pequeñas cantidades de datos a largas distancias con una batería que puede durar años." } },
-            { question: "11. El uso de un sensor para medir la luz natural y regular la intensidad de las luces artificiales se conoce como:", options: ["Control por horario", "Control por detección de presencia", "Regulación por aporte de luz natural (Daylight Harvesting)", "Control ON/OFF", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! Esta estrategia es clave para la eficiencia energética, ya que utiliza la luz natural disponible para reducir el consumo eléctrico." } },
-            { question: "12. ¿Qué significa que un controlador tiene 'Entradas/Salidas Universales'?", options: ["Que funciona con cualquier marca de sensor.", "Que se puede conectar a cualquier tipo de red.", "Que sus puertos físicos pueden ser configurados por software como entrada o salida, digital o analógica.", "Que tiene un puerto USB universal.", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! Las I/O universales ofrecen una gran flexibilidad durante la instalación, ya que un mismo punto físico puede adaptarse a diferentes tipos de señales." } },
-            { question: "13. El ciclo de gestión energética 'Medir, Analizar, Actuar y Supervisar' es un proceso de:", options: ["Instalación única", "Mejora continua", "Diseño inicial", "Mantenimiento correctivo", "Todas las anteriores", "Ninguna de las anteriores"], correct: 1, feedback: { 1: "¡Correcto! Es un ciclo iterativo. Después de supervisar, se vuelve a medir para encontrar nuevas oportunidades de optimización." } },
-            { question: "14. ¿Cuál de estos actores del mercado se enfoca en crear normativas y certificaciones como LEED?", options: ["Promotor", "Constructor", "Organizaciones Gremiales (Ej. Green Building Council)", "Instalador", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! Organizaciones como los Green Building Councils son fundamentales para desarrollar y promover estándares de construcción sostenible." } },
-            { question: "15. ¿En qué fase de la 'Línea de Vida de un Proyecto' se realiza la programación de la lógica de control y el diseño del SCADA?", options: ["Pre-diseño", "Construcción de obra", "Ingeniería de detalle", "Operación y Mantenimiento (O&M)", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! La ingeniería de detalle es donde se traducen los requerimientos en soluciones técnicas concretas, incluyendo la programación de los sistemas." } }
-        ];
-
-        // --- Google API Configuration ---
-        const CLIENT_ID = '700675294471-lfr5s9ho9crs9k5sc4ddah5o6gut139v.apps.googleusercontent.com';
-        const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
-        const SPREADSHEET_ID = '1DcW5Ou-1U1Zd6ll1uDAobFerQoXrXuonyN5uMUeMxHg';
-
-        // --- DOM Elements ---
-        const studentInfoSection = document.getElementById('student-info-section');
-        const studentInfoForm = document.getElementById('student-info-form');
-        const quizSection = document.getElementById('quiz-section');
-        const quizContainer = document.getElementById('quiz-container');
-        const navigationContainer = document.getElementById('navigation-container');
-        const progressBar = document.getElementById('progress-bar');
-        const timerEl = document.getElementById('timer');
-        const evaluationSection = document.getElementById('evaluation-section');
-        const resultsContainer = document.getElementById('results-container');
-        const confirmationModal = document.getElementById('confirmation-modal');
+<script>
+    // --- Espera a que todo el contenido del DOM esté cargado para ejecutar el script ---
+    document.addEventListener('DOMContentLoaded', () => {
         
-        // --- State Variables ---
-        let currentQuestionIndex = 0;
-        let studentAnswers = new Array(quizData.length).fill(null);
-        let studentInfo = {};
-        let timerInterval;
-        let seconds = 0;
-        let gapiInited = false;
-        let gisInited = false;
+        // --- BASE DE DATOS DE PREGUNTAS DEL EXAMEN (v4 - Puntuación 50 Verificada) ---
+        const questions = [
+            { question: "1. Según el documento, ¿cuáles son los cuatro pilares fundamentales de la automatización de edificios?", options: [ "Confort, Energía, Seguridad y Comunicación.", "Arquitectura, Ingeniería, Construcción y Mantenimiento.", "Sensores, Actuadores, Controladores y Software.", "Ahorro, Eficiencia, Innovación y Tecnología." ], correct: 0, points: 2, rationale: "¡Correcto! Estos son los cuatro pilares mencionados directamente en la presentación como las bases de la automatización." },
+            { question: "2. ¿Qué tipo de señal es caracterizada por tener solo dos estados, como 'TODO/NADA' o 'NC/NO'?", options: [ "Señal Digital.", "Señal Analógica.", "Señal Proporcional.", "Señal PWM." ], correct: 0, points: 2, rationale: "¡Correcto! La presentación define las señales digitales como de tipo 'TODO/NADA', con ejemplos como Normalmente Cerrado (NC) y Normalmente Abierto (NO)." },
+            { question: "3. ¿Cuál es el primer paso a seguir en la metodología de diseño para grandes instalaciones?", options: [ "Definir cada área del proyecto como BMS o RMS.", "Definir el subsistema a diseñar (iluminación, clima, etc.).", "Documentar la memoria descriptiva y los planos.", "Definir la estrategia de control para el subsistema." ], correct: 0, points: 2, rationale: "¡Correcto! La metodología presentada indica que el primer paso es definir y separar las áreas que pertenecerán al BMS (áreas comunes) y al RMS (áreas privadas)." },
+            { question: "4. ¿Qué tecnología de comunicación se menciona como un estándar abierto para medianas y grandes instalaciones, regulado por la norma ISO 16484?", options: [ "BACnet.", "KNX.", "LonWorks.", "Modbus." ], correct: 0, points: 2, rationale: "¡Correcto! La presentación lo identifica como un estándar bajo la norma ISO 16484, ideal para grandes instalaciones." },
+            { question: "5. En la gestión de un sistema de climatización por agua helada, ¿qué elemento se utiliza para controlar el flujo de agua en las unidades terminales (UMAs)?", options: [ "Válvula proporcional.", "Termostato.", "Sensor de presión.", "Contactor." ], correct: 0, points: 2, rationale: "¡Correcto! En el listado de control para las unidades internas, se especifica una 'Válvula de agua helada del Fancoil' con una señal de control, lo que implica una válvula proporcional." },
+            { question: "6. ¿Qué es una 'Pasarela' (Gateway) en el contexto de la integración de sistemas?", options: [ "Un dispositivo que traduce y comunica protocolos diferentes.", "Un software para la visualización de datos (SCADA).", "Un tipo de sensor para medir el consumo eléctrico.", "El controlador principal de todo el edificio (BMS)." ], correct: 0, points: 2, rationale: "¡Correcto! Se describe como una solución para la integración cuando no es nativa, permitiendo que sistemas con protocolos distintos puedan comunicarse." },
+            { question: "7. En el ciclo de gestión energética, ¿qué acción sigue inmediatamente después de 'Analizar'?", options: [ "Actuar.", "Medir.", "Supervisar.", "Optimizar." ], correct: 0, points: 2, rationale: "¡Correcto! El diagrama del ciclo de gestión energética muestra claramente que el paso siguiente a 'Analizar' es 'Actuar'." },
+            { question: "8. ¿Qué tipo de actuadores son descritos como 'Regulable, Ajustable, Posicionales'?", options: [ "Proporcionales.", "Digitales.", "Analógicos.", "Resistivos." ], correct: 0, points: 2, rationale: "¡Correcto! Esta descripción corresponde a los actuadores proporcionales, que pueden operar en un rango de valores, a diferencia de los de 'TODO/NADA'." },
+            { question: "9. ¿Qué actor del mercado es responsable de la 'Ingeniería de detalle para la puesta en marcha'?", options: [ "Integrador.", "Proyectista.", "Promotor.", "Agente de comisionamiento." ], correct: 0, points: 2, rationale: "¡Correcto! En la línea de vida del proyecto, la 'Ingeniería de detalle' es una de las fases posteriores a la contratación, y es una responsabilidad típica del integrador del sistema." },
+            { question: "10. En la documentación de un proyecto, ¿cuál es el propósito de una 'Matriz de Responsabilidades'?", options: [ "Definir y delimitar claramente las tareas de cada empresa o especialista involucrado.", "Estimar los costos detallados de los equipos y la mano de obra del proyecto.", "Proporcionar los manuales de operación y mantenimiento.", "Mostrar la ubicación física de los equipos en un plano." ], correct: 0, points: 2, rationale: "¡Correcto! La matriz asigna actividades específicas a las diferentes partes para evitar confusiones." },
+            { question: "11. ¿Qué subsistema se encarga del control de equipos como chillers, UMAs y VAVs?", options: [ "Climatización (HVAC).", "Renovación del aire.", "Sistemas sanitarios.", "Control de acceso." ], correct: 0, points: 2, rationale: "¡Correcto! Estos equipos son componentes centrales del sistema de climatización." },
+            { question: "12. ¿Cuál es la diferencia principal entre un sistema de climatización VRF/VRV y uno de agua helada?", options: [ "El fluido que utilizan para transportar la energía térmica (refrigerante vs. agua).", "Los sistemas de agua helada no necesitan unidades exteriores.", "Los sistemas VRF/VRV no permiten control individual por zona.", "Los sistemas de agua helada son exclusivamente para edificios pequeños." ], correct: 0, points: 2, rationale: "¡Correcto! Los sistemas VRF usan refrigerante para climatizar, mientras que los sistemas de agua helada usan agua enfriada por un chiller." },
+            { question: "13. En la documentación de un proyecto de automatización, ¿qué entregable contiene el listado detallado de todos los puntos de control (entradas/salidas)?", options: [ "Listado de Control y Cómputos.", "Memoria Descriptiva.", "Planos y Diagramas.", "Especificaciones Técnicas." ], correct: 0, points: 2, rationale: "¡Correcto! Este documento contiene la lista detallada de cada punto de control con su tipo y ubicación." },
+            { question: "14. ¿Qué tipo de sensor se utiliza para detectar si un ventilador o una bomba está funcionando, midiendo el paso de electricidad?", options: [ "Sensor de corriente.", "Detector de flujo de paleta.", "Detector de presión diferencial.", "Termostato." ], correct: 0, points: 2, rationale: "¡Correcto! Se menciona el uso de sensores de corriente para monitorear el estado (funcionamiento) de bombas y ventiladores." },
+            { question: "15. ¿Cuál de las siguientes es una tecnología de comunicación cerrada o propietaria?", options: [ "Lutron.", "BACnet.", "KNX.", "LonWorks." ], correct: 0, points: 3, rationale: "¡Correcto! Lutron es conocido por sus sistemas propietarios, a diferencia de estándares abiertos como BACnet o KNX." },
+            { question: "16. ¿Qué es el 'Facility Management'?", options: [ "Una disciplina para asegurar y gestionar el mejor funcionamiento de los inmuebles y sus servicios asociados.", "El proceso de construcción de un nuevo edificio.", "La gestión de un único sistema, como el aire acondicionado.", "El diseño arquitectónico y de interiores de una instalación." ], correct: 0, points: 3, rationale: "¡Correcto! Esta es la definición textual que se proporciona en la presentación, abarcando la integración de personas, espacios y procesos." },
+            { question: "17. Dentro de la línea de vida de un proyecto, ¿en qué fase se realiza el 'Comisionamiento de la red'?", options: [ "Obra Construida.", "Pre-diseño.", "Diseño de Arquitectura.", "Construcción de obra." ], correct: 0, points: 3, rationale: "¡Correcto! El comisionamiento es un proceso de aseguramiento de la calidad que verifica que la obra entregada funciona según lo proyectado." },
+            { question: "18. En un pasillo largo con múltiples ventanas que reciben abundante luz solar, ¿qué combinación de estrategias de control de iluminación sería la más eficiente?", options: [ "Instalar detectores de presencia y sensores de luminosidad para regular la intensidad.", "Utilizar únicamente una estrategia por horarios.", "Instalar únicamente detectores de presencia.", "Instalar únicamente sensores de luminosidad." ], correct: 0, points: 4, rationale: "¡Correcto! Esta es la solución más completa y eficiente, ya que combina el ahorro por ocupación con el ahorro por aprovechamiento de luz natural (dimming)." },
+            { question: "19. Se diseña el control para un quirófano de hospital, donde se exige presión de aire positiva. ¿Qué instrumentación es indispensable para esta estrategia?", options: [ "Un transductor de presión diferencial y un variador de frecuencia (VFD) en la UMA.", "Un termostato de alta precisión y un selector de modo.", "Sensores de CO2 en el quirófano y en el pasillo.", "Un detector de flujo de aire y un contactor para el ventilador." ], correct: 0, points: 4, rationale: "¡Correcto! Se necesita un transductor de presión diferencial para medir la variable clave, y un VFD para regular la velocidad del ventilador y mantener dicha presión." },
+            { question: "20. En un listado de control se requiere una 'Tarjeta de comunicación' para cada Chiller. ¿Cuál es el propósito más probable de este componente?", options: [ "Permitir al BMS comunicarse con el chiller vía protocolo para monitorear variables internas sin cableado individual.", "Funcionar como la fuente de alimentación principal para el chiller.", "Permitir al chiller conectarse a internet para descargar actualizaciones.", "Servir como un selector manual para el personal de mantenimiento." ], correct: 0, points: 5, rationale: "¡Correcto! La tarjeta de comunicación permite obtener toda la información interna del equipo a través de un único cable de red, simplificando la instalación." }
+        ];
+        
+        // --- VARIABLES DE ESTADO Y CONFIGURACIÓN ---
+        let currentQuestionIndex = 0; // Índice de la pregunta actual.
+        let userAnswers = new Array(questions.length).fill(null); // Array para almacenar las respuestas del usuario.
+        let userInfo = {}; // Objeto para guardar la información del estudiante.
+        let timerInterval; // Variable para el intervalo del temporizador.
+        let secondsElapsed = 0; // Contador de segundos transcurridos.
+        const totalPoints = questions.reduce((sum, q) => sum + q.points, 0); // Puntuación total posible del examen.
+        const gasWebAppUrl = 'https://script.google.com/macros/s/AKfycbwxtLsJ4P1CBjGHxJCbJ5mZQyJS0RIDopEomKEYspEVHuzVCkJIJDmST6y753bu-nuocg/exec';
 
-        // --- Initialization ---
-        document.addEventListener('DOMContentLoaded', () => {
-            studentInfoForm.addEventListener('submit', startQuiz);
-            document.getElementById('cancel-finish-btn').addEventListener('click', () => confirmationModal.classList.add('hidden'));
-            document.getElementById('confirm-finish-btn').addEventListener('click', finishQuiz);
-            
-            // Load Google API
-            gapi.load('client:auth2', initClient);
-        });
+        // --- REFERENCIAS A ELEMENTOS DEL DOM ---
+        const startView = document.getElementById('start-view');
+        const quizView = document.getElementById('quiz-view');
+        const resultsView = document.getElementById('results-view');
+        const evaluatingView = document.getElementById('evaluating-view');
+        const confirmModal = document.getElementById('confirm-modal');
+        const userInfoForm = document.getElementById('user-info-form');
+        const questionNumberEl = document.getElementById('question-number');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const progressBar = document.getElementById('progress-bar');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const timerEl = document.getElementById('timer');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const confirmFinishBtn = document.getElementById('confirm-finish-btn');
+        const cancelFinishBtn = document.getElementById('cancel-finish-btn');
+        const finalScoreEl = document.getElementById('final-score');
+        const totalScoreEl = document.getElementById('total-score');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const saveStatusEl = document.getElementById('save-status');
 
-        // --- Google API Functions ---
-        function initClient() {
-            gapi.client.init({
-                clientId: CLIENT_ID,
-                scope: SCOPES,
-                discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
-            }).then(() => {
-                gapiInited = true;
-            }).catch(err => {
-                console.error("Error initializing GAPI client:", err);
+        // --- FUNCIONES PRINCIPALES DEL EXAMEN ---
+
+        function startQuiz() {
+            userInfo = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value
+            };
+            startView.classList.add('hidden');
+            quizView.classList.remove('hidden');
+            startTimer();
+            totalQuestionsEl.textContent = questions.length;
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function loadQuestion(index) {
+            const question = questions[index];
+            questionNumberEl.textContent = index + 1;
+            questionTextEl.innerHTML = `<span class="font-semibold">${question.question}</span> <span class="text-sm font-normal text-gray-500">(${question.points} puntos)</span>`;
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, i) => {
+                const isChecked = userAnswers[index] === i;
+                const optionId = `q${index}_option${i}`;
+                const optionElement = document.createElement('label');
+                optionElement.htmlFor = optionId;
+                optionElement.className = `flex items-center p-4 border rounded-lg cursor-pointer transition-all duration-200 ${isChecked ? 'bg-blue-100 border-blue-500 ring-2 ring-blue-500' : 'border-gray-300 hover:border-blue-400'}`;
+                optionElement.innerHTML = `
+                    <input type="radio" id="${optionId}" name="question${index}" value="${i}" class="hidden">
+                    <span class="w-5 h-5 mr-4 flex-shrink-0 rounded-full border-2 flex items-center justify-center ${isChecked ? 'border-blue-600' : 'border-gray-400'}">
+                        ${isChecked ? '<span class="w-2.5 h-2.5 bg-blue-600 rounded-full"></span>' : ''}
+                    </span>
+                    <span class="text-gray-800">${option}</span>
+                `;
+                optionElement.addEventListener('click', () => selectAnswer(index, i));
+                optionsContainer.appendChild(optionElement);
             });
+            updateNavigation();
+            updateProgressBar();
+        }
+        
+        function selectAnswer(questionIndex, answerIndex) {
+            userAnswers[questionIndex] = answerIndex;
+            loadQuestion(questionIndex);
         }
 
-        async function handleAuthClick() {
-            const authInstance = gapi.auth2.getAuthInstance();
-            if (!authInstance.isSignedIn.get()) {
-                await authInstance.signIn();
-            }
-            if (authInstance.isSignedIn.get()) {
-                 await appendDataToSheet();
+        function updateNavigation() {
+            prevBtn.classList.toggle('hidden', currentQuestionIndex === 0);
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.textContent = 'Finalizar';
             } else {
-                alert("Se requiere autorización para guardar en Google Sheets.");
+                nextBtn.textContent = 'Siguiente';
             }
         }
 
-        async function appendDataToSheet() {
-            const saveButton = document.getElementById('save-to-sheets-btn');
-            saveButton.disabled = true;
-            saveButton.innerHTML = `<div class="loader mx-auto"></div>`;
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
 
-            if (SPREADSHEET_ID === 'PEGA_AQUI_EL_ID_DE_TU_HOJA_DE_CALCULO') {
-                alert('Error: Debes editar el archivo HTML y configurar el SPREADSHEET_ID.');
-                saveButton.disabled = false;
-                saveButton.innerText = 'Guardar en Google Sheets';
+        function navigateQuestion(direction) {
+            if (direction === 1 && currentQuestionIndex === questions.length - 1) {
+                showConfirmationModal();
                 return;
             }
+            currentQuestionIndex += direction;
+            loadQuestion(currentQuestionIndex);
+        }
 
-            const correctAnswers = studentAnswers.filter((a, i) => a === quizData[i].correct).length;
-            const finalScore = ((correctAnswers / quizData.length) * 40).toFixed(2);
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                timerEl.textContent = formatTime(secondsElapsed);
+            }, 1000);
+        }
+
+        function formatTime(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        function showConfirmationModal() {
+            confirmModal.classList.remove('hidden');
+        }
+
+        function hideConfirmationModal() {
+            confirmModal.classList.add('hidden');
+        }
+
+        function finishExam() {
+            hideConfirmationModal();
+            clearInterval(timerInterval);
+            quizView.classList.add('hidden');
+            evaluatingView.classList.remove('hidden');
+            const evalProgressBar = document.getElementById('eval-progress-bar');
             
-            // Create a timestamp
-            const timestamp = new Date().toLocaleString('es-VE');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                evalProgressBar.style.width = `${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        evaluatingView.classList.add('hidden');
+                        calculateAndShowResults();
+                    }, 500);
+                }
+            }, 200);
+        }
+        
+        function calculateScore() {
+            return userAnswers.reduce((score, answer, index) => {
+                if (answer === questions[index].correct) {
+                    return score + questions[index].points;
+                }
+                return score;
+            }, 0);
+        }
 
-            // Prepare the row data
-            let rowData = [
-                timestamp,
-                studentInfo.firstName,
-                studentInfo.lastName,
-                studentInfo.email,
-                finalScore,
-                timerEl.textContent,
-            ];
+        function calculateAndShowResults() {
+            const score = calculateScore();
+            finalScoreEl.textContent = score;
+            totalScoreEl.textContent = totalPoints;
+            feedbackContainer.innerHTML = '';
+            questions.forEach((q, index) => {
+                const userAnswerIndex = userAnswers[index];
+                const userAnswerText = userAnswerIndex !== null ? q.options[userAnswerIndex] : "No respondida";
+                const isCorrect = userAnswerIndex === q.correct;
 
-            // Add each answer to the row
-            quizData.forEach((q, index) => {
-                const userAnswerIndex = studentAnswers[index];
-                const userAnswerText = userAnswerIndex !== null ? q.options[userAnswerIndex] : 'No respondida';
-                rowData.push(userAnswerText);
+                const feedbackElement = document.createElement('div');
+                feedbackElement.className = `p-4 mb-4 rounded-lg border-l-4 ${isCorrect ? 'bg-green-50 border-green-500' : 'bg-red-50 border-red-500'}`;
+                feedbackElement.innerHTML = `
+                    <p class="font-bold text-gray-800">${q.question}</p>
+                    <p class="mt-2 text-sm">Tu respuesta: <span class="font-semibold">${userAnswerText}</span></p>
+                    ${!isCorrect && userAnswerIndex !== null ? `<p class="mt-1 text-sm">Respuesta correcta: <span class="font-semibold">${q.options[q.correct]}</span></p>` : ''}
+                    <p class="mt-2 text-xs text-gray-600">${q.rationale}</p>
+                `;
+                feedbackContainer.appendChild(feedbackElement);
             });
             
-            try {
-                const response = await gapi.client.sheets.spreadsheets.values.append({
-                    spreadsheetId: SPREADSHEET_ID,
-                    range: 'Test1-DiseñoEdificiosInteligentes-06.2025.v1!A1',
-                    valueInputOption: 'USER_ENTERED',
-                    resource: {
-                        values: [rowData],
-                    },
-                });
-                console.log(response);
-                alert('¡Resultados guardados en Google Sheets exitosamente!');
-                saveButton.innerText = 'Guardado con Éxito';
-                saveButton.classList.add('bg-green-600');
-                saveButton.classList.remove('bg-innotica-blue');
+            resultsView.classList.remove('hidden');
+            sendDataToWebApp();
+        }
 
-            } catch (err) {
-                console.error("API Error: ", err);
-                alert('Error al guardar en Google Sheets. Revisa la consola para más detalles.');
-                saveButton.disabled = false;
-                saveButton.innerText = 'Guardar en Google Sheets';
+        async function sendDataToWebApp() {
+            saveStatusEl.textContent = 'Procesando resultados y enviando notificación...';
+            saveStatusEl.className = 'text-sm font-semibold mt-4 text-gray-500';
+
+            const payload = {
+                sheetName: 'Resultados-ExamenFinal-M3-v1',
+                timestamp: new Date().toLocaleString('es-VE', { timeZone: 'America/Caracas' }),
+                firstName: userInfo.firstName,
+                lastName: userInfo.lastName,
+                email: userInfo.email,
+                score: calculateScore(),
+                totalPoints: totalPoints,
+                timeTaken: formatTime(secondsElapsed),
+                answers: questions.map((q, i) => ({
+                    question: q.question,
+                    userAnswer: userAnswers[i] !== null ? q.options[userAnswers[i]] : "No respondida",
+                    correctAnswer: q.options[q.correct],
+                    isCorrect: userAnswers[i] === q.correct
+                }))
+            };
+
+            try {
+                const response = await fetch(gasWebAppUrl, {
+                    method: 'POST',
+                    mode: 'no-cors', // Necesario para evitar errores de CORS con Google Apps Script
+                    redirect: 'follow',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8",
+                    }
+                });
+                
+                // Con no-cors no podemos leer la respuesta, así que asumimos éxito si no hay error de red.
+                saveStatusEl.textContent = 'Resultados enviados para su procesamiento. Recibirás una notificación por correo.';
+                saveStatusEl.className = 'text-sm font-semibold mt-4 text-green-600';
+
+            } catch (error) {
+                saveStatusEl.textContent = `Error en el envío automático. Por favor, reporta tu resultado manualmente.`;
+                saveStatusEl.className = 'text-sm font-semibold mt-4 text-red-600';
+                console.error('Error al enviar datos:', error);
             }
         }
 
-        // --- Quiz Logic ---
-        function startQuiz(e) { e.preventDefault(); studentInfo.firstName = document.getElementById('firstName').value; studentInfo.lastName = document.getElementById('lastName').value; studentInfo.email = document.getElementById('email').value; if (studentInfo.firstName && studentInfo.lastName && studentInfo.email) { studentInfoSection.classList.add('hidden'); quizSection.classList.remove('hidden'); startTimer(); displayQuestion(); } }
-        function displayQuestion() { const q = quizData[currentQuestionIndex]; quizContainer.innerHTML = `<div class="bg-gray-50 p-6 rounded-lg shadow-inner"><p class="mb-6 text-lg text-gray-800">${q.question}</p><div class="space-y-3">${q.options.map((o, i) => `<div class="option bg-white p-4 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-innotica-blue cursor-pointer" data-index="${i}"><label class="w-full h-full block cursor-pointer">${o}</label></div>`).join('')}</div></div>`; if (studentAnswers[currentQuestionIndex] !== null) { quizContainer.querySelector(`[data-index='${studentAnswers[currentQuestionIndex]}']`).classList.add('bg-blue-100', 'border-innotica-blue'); } quizContainer.querySelectorAll('.option').forEach(o => o.addEventListener('click', selectAnswer)); updateNavigation(); updateProgressBar(); }
-        function selectAnswer(e) { const i = parseInt(e.currentTarget.dataset.index); studentAnswers[currentQuestionIndex] = i; quizContainer.querySelectorAll('.option').forEach(o => o.classList.remove('bg-blue-100', 'border-innotica-blue')); e.currentTarget.classList.add('bg-blue-100', 'border-innotica-blue'); }
-        function updateNavigation() { navigationContainer.innerHTML = `<button id="prev-btn" class="px-6 py-2 bg-gray-300 rounded-lg ${currentQuestionIndex === 0 ? 'invisible' : ''}">Anterior</button>${currentQuestionIndex === quizData.length - 1 ? `<button id="finish-btn" class="px-6 py-2 bg-innotica-blue text-white font-bold rounded-lg">Finalizar</button>` : `<button id="next-btn" class="px-6 py-2 bg-innotica-blue text-white rounded-lg">Siguiente</button>`}`; if (currentQuestionIndex > 0) document.getElementById('prev-btn').addEventListener('click', handlePrevQuestion); if (currentQuestionIndex < quizData.length - 1) document.getElementById('next-btn').addEventListener('click', handleNextQuestion); else document.getElementById('finish-btn').addEventListener('click', () => confirmationModal.classList.remove('hidden')); }
-        function handleNextQuestion() { if (currentQuestionIndex < quizData.length - 1) { currentQuestionIndex++; displayQuestion(); } }
-        function handlePrevQuestion() { if (currentQuestionIndex > 0) { currentQuestionIndex--; displayQuestion(); } }
-        function finishQuiz() { confirmationModal.classList.add('hidden'); quizSection.classList.add('hidden'); evaluationSection.classList.remove('hidden'); clearInterval(timerInterval); let p = 0; const i = setInterval(() => { p += 20; document.getElementById('evaluation-bar').style.width = `${p}%`; if (p >= 100) { clearInterval(i); setTimeout(() => { evaluationSection.classList.add('hidden'); showResults(); }, 500); } }, 1000); }
-        function showResults() { resultsContainer.classList.remove('hidden'); const c = studentAnswers.filter((a, i) => a === quizData[i].correct).length; const s = ((c / quizData.length) * 40).toFixed(2); resultsContainer.innerHTML = `<h2 class="text-3xl font-bold text-innotica-blue mb-4">Resultados</h2><p class="text-xl mb-2">Puntuación Final:</p><p class="text-5xl font-bold text-innotica-blue mb-6">${s} / 40.00</p><div class="text-left space-y-6">${quizData.map((q, i) => { const u = studentAnswers[i]; const r = u === q.correct; const f = r ? q.feedback[u] : 'Respuesta incorrecta.'; return `<div class="p-4 rounded-lg ${r ? 'bg-green-50 border-l-4 border-green-500' : 'bg-red-50 border-l-4 border-red-500'}"><p class="font-bold">${q.question}</p><p class="mt-2">Tu respuesta: <span class="font-semibold">${u !== null ? q.options[u] : 'No respondida'}</span></p><p class="mt-2 text-sm ${r ? 'text-green-700' : 'text-red-700'}">${f}</p></div>`; }).join('')}</div><div class="mt-8 space-y-4"><button id="save-to-sheets-btn" class="bg-innotica-blue text-white font-bold py-3 px-8 rounded-lg hover:bg-innotica-blue-dark w-full md:w-auto">Guardar en Google Sheets</button><button id="send-email-btn" class="bg-gray-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 w-full md:w-auto">Preparar Correo</button></div>`; document.getElementById('send-email-btn').addEventListener('click', sendEmail); document.getElementById('save-to-sheets-btn').addEventListener('click', handleAuthClick); }
-        function startTimer() { timerInterval = setInterval(() => { seconds++; const m = Math.floor(seconds / 60).toString().padStart(2, '0'); const s = (seconds % 60).toString().padStart(2, '0'); timerEl.textContent = `${m}:${s}`; }, 1000); }
-        function updateProgressBar() { document.getElementById('progress-text').textContent = `Pregunta ${currentQuestionIndex + 1} de ${quizData.length}`; document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / quizData.length) * 100}%`; }
-        function sendEmail() { const s = ((studentAnswers.filter((a, i) => a === quizData[i].correct).length / quizData.length) * 40).toFixed(2); const t = "carlosdobobuto@gmail.com"; const j = `Resultados: ${studentInfo.firstName} ${studentInfo.lastName}`; let b = `Resultados del Examen:\nNombre: ${studentInfo.firstName} ${studentInfo.lastName}\nCorreo: ${studentInfo.email}\nTiempo: ${timerEl.textContent}\n\nPUNTUACIÓN: ${s} / 40.00\n\n------------------\n\n`; quizData.forEach((q, i) => { const u = studentAnswers[i]; const c = u === q.correct; const f = c ? q.feedback[u] : 'Respuesta incorrecta.'; b += `${q.question}\nRespuesta: ${u !== null ? q.options[u] : 'No respondida'} (${c ? 'Correcta' : 'Incorrecta'})\nFeedback: ${f}\n\n`; }); window.location.href = `mailto:${t}?subject=${encodeURIComponent(j)}&body=${encodeURIComponent(b)}`; }
-    </script>
+        // --- ASIGNACIÓN DE EVENT LISTENERS ---
+        userInfoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            startQuiz();
+        });
+        prevBtn.addEventListener('click', () => navigateQuestion(-1));
+        nextBtn.addEventListener('click', () => navigateQuestion(1));
+        confirmFinishBtn.addEventListener('click', finishExam);
+        cancelFinishBtn.addEventListener('click', hideConfirmationModal);
+
+    });
+</script>
+
 </body>
 </html>
